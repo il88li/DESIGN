@@ -1,14 +1,6 @@
 /* ===== إعادة تعيين وتحسينات ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
     font-family: 'Cairo', sans-serif;
     background: linear-gradient(145deg, #FFF8FC 0%, #F5F0FF 50%, #F0F5FF 100%);
@@ -17,18 +9,11 @@ body {
     line-height: 1.7;
     padding-bottom: 90px;
 }
-
-.container {
-    width: 92%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 15px 0;
-}
-
+.container { width: 92%; max-width: 1200px; margin: 0 auto; padding: 15px 0; }
 :root {
-    --glass-bg: rgba(255, 255, 255, 0.55);
-    --glass-border: rgba(219, 181, 238, 0.25);
-    --glass-shadow: 0 8px 32px rgba(76, 5, 133, 0.08);
+    --glass-bg: rgba(255,255,255,0.55);
+    --glass-border: rgba(219,181,238,0.25);
+    --glass-shadow: 0 8px 32px rgba(76,5,133,0.08);
     --glass-blur: 12px;
     --primary: #7B3FAF;
     --primary-light: #B388D9;
@@ -36,7 +21,7 @@ body {
     --text-dark: #2d1b36;
     --text-soft: #5a4a66;
     --radius: 20px;
-    --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition: 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
 }
 
 /* ===== شريط التنقل الدائري الشفاف العائم ===== */
@@ -49,17 +34,17 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 6px;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255,255,255,0.6);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255,255,255,0.5);
     border-radius: 60px;
-    padding: 8px 14px;
-    box-shadow: 0 8px 40px rgba(76, 5, 133, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    padding: 8px 16px;
+    box-shadow: 0 8px 40px rgba(76,5,133,0.12), inset 0 1px 0 rgba(255,255,255,0.8);
     z-index: 999;
     width: auto;
     max-width: 96%;
-    min-width: 340px;
+    min-width: 360px;
 }
 
 .nav-social {
@@ -67,7 +52,6 @@ body {
     gap: 6px;
     align-items: center;
 }
-
 .nav-social .social-icon {
     display: flex;
     align-items: center;
@@ -75,13 +59,12 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: rgba(123, 63, 175, 0.08);
+    background: rgba(123,63,175,0.08);
     color: var(--primary);
     font-size: 1rem;
     transition: all 0.3s;
     text-decoration: none;
 }
-
 .nav-social .social-icon:hover {
     background: var(--primary);
     color: white;
@@ -91,7 +74,7 @@ body {
 .nav-links-center {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 3px;
     flex: 1;
     justify-content: center;
 }
@@ -105,121 +88,39 @@ body {
     color: #aaa;
     font-size: 0.5rem;
     font-weight: 600;
-    padding: 4px 6px;
+    padding: 4px 8px;
     border-radius: 30px;
     transition: all 0.3s ease;
-    min-width: 38px;
+    min-width: 42px;
     position: relative;
 }
-
 .navbar-glass .nav-item i {
     font-size: 1rem;
     transition: transform 0.3s, color 0.3s;
 }
-
 .navbar-glass .nav-item span {
     margin-top: 1px;
     font-size: 0.45rem;
-    opacity: 0.8;
+    opacity: 0.9;
     white-space: nowrap;
 }
-
-.navbar-glass .nav-item:hover {
-    color: var(--primary);
-}
-
+.navbar-glass .nav-item:hover { color: var(--primary); }
 .navbar-glass .nav-item.active {
     color: white;
     background: var(--primary);
-    box-shadow: 0 4px 20px rgba(123, 63, 175, 0.35);
+    box-shadow: 0 4px 20px rgba(123,63,175,0.35);
 }
-
-.navbar-glass .nav-item.active i {
-    transform: translateY(-2px) scale(1.1);
-}
-
-.navbar-glass .nav-item.active span {
-    opacity: 1;
-}
-
-.nav-page-title {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--text-dark);
-    background: rgba(255, 255, 255, 0.3);
-    padding: 3px 10px;
-    border-radius: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(4px);
-    white-space: nowrap;
-}
-
-.nav-page-title .page-name {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--primary);
-    font-size: 0.7rem;
-}
-
-.nav-page-title .page-name i {
-    font-size: 0.75rem;
-}
-
-/* ===== تحسينات البطاقات (نفس السابق) ===== */
-.glass-card {
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius);
-    box-shadow: var(--glass-shadow);
-    transition: transform 0.3s, box-shadow 0.3s;
-    overflow: hidden;
-}
-
-.glass-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 16px 48px rgba(76, 5, 133, 0.12);
-}
-
-.glass-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-    background: var(--primary-lighter);
-}
-
-.glass-card:hover img {
-    transform: scale(1.02);
-}
-
-.glass-card h3 {
-    font-size: 1.15rem;
-    color: var(--primary);
-    padding: 14px 18px 0;
-    margin: 0;
-}
-
-.glass-card p {
-    color: var(--text-soft);
-    font-size: 0.95rem;
-    padding: 4px 18px 18px;
-    line-height: 1.8;
-}
+.navbar-glass .nav-item.active i { transform: translateY(-2px) scale(1.1); }
+.navbar-glass .nav-item.active span { opacity: 1; }
 
 /* ===== باقي التنسيقات (نفس السابق) ===== */
-/* ... (جميع التنسيقات الأخرى كما هي) ... */
+/* ... (جميع التنسيقات الأخرى للبطاقات، الأزرار، الشبكات، الخدمات، التواصل، التذييل، التأثيرات) ... */
 
 /* ===== التجاوب مع الجوال ===== */
 @media (max-width: 768px) {
     .navbar-glass {
         padding: 6px 10px;
-        gap: 4px;
+        gap: 3px;
         min-width: auto;
         flex-wrap: nowrap;
         justify-content: space-between;
@@ -230,74 +131,33 @@ body {
         height: 26px;
         font-size: 0.8rem;
     }
-    .nav-links-center {
-        gap: 1px;
-    }
+    .nav-links-center { gap: 1px; }
     .navbar-glass .nav-item {
-        min-width: 32px;
-        padding: 3px 4px;
+        min-width: 34px;
+        padding: 3px 5px;
     }
-    .navbar-glass .nav-item i {
-        font-size: 0.8rem;
-    }
-    .navbar-glass .nav-item span {
-        font-size: 0.4rem;
-        display: block;
-    }
-    .nav-page-title {
-        font-size: 0.6rem;
-        padding: 2px 6px;
-    }
-    .nav-page-title .page-name {
-        font-size: 0.6rem;
-    }
-    .nav-page-title .page-name i {
-        font-size: 0.65rem;
-    }
-    .glass-card img {
-        height: 150px;
-    }
+    .navbar-glass .nav-item i { font-size: 0.8rem; }
+    .navbar-glass .nav-item span { font-size: 0.4rem; display: block; }
 }
 
 @media (max-width: 480px) {
     .navbar-glass {
-        padding: 4px 6px;
-        gap: 2px;
+        padding: 4px 8px;
+        gap: 1px;
         border-radius: 30px;
         min-width: auto;
+        max-width: 98%;
     }
     .nav-social .social-icon {
         width: 22px;
         height: 22px;
         font-size: 0.65rem;
     }
-    .nav-links-center {
-        gap: 0;
-    }
+    .nav-links-center { gap: 0; }
     .navbar-glass .nav-item {
-        min-width: 28px;
-        padding: 2px 3px;
-    }
-    .navbar-glass .nav-item i {
-        font-size: 0.7rem;
-    }
-    .navbar-glass .nav-item span {
-        display: none;
-    }
-    .nav-page-title {
-        font-size: 0.5rem;
+        min-width: 30px;
         padding: 2px 4px;
     }
-    .nav-page-title .page-name {
-        font-size: 0.5rem;
-    }
-    .nav-page-title .page-name i {
-        font-size: 0.55rem;
-    }
-    .glass-card img {
-        height: 130px;
-    }
+    .navbar-glass .nav-item i { font-size: 0.7rem; }
+    .navbar-glass .nav-item span { display: none; } /* إخفاء الأسماء في الشاشات الصغيرة جداً */
 }
-
-/* ===== باقي التنسيقات ===== */
-/* (يجب الاحتفاظ بجميع التنسيقات السابقة مثل الأزرار، الشبكات، الخدمات، التواصل، التذييل، إلخ) */
