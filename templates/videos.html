@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}معرض الفيديوهات - يوسف{% endblock %}
+
+{% block content %}
+<section class="section videos-section">
+    <div class="container">
+        <h2 class="section-title">أعمال <span>المونتاج</span></h2>
+        <div class="videos-grid">
+            {% for video in videos %}
+                <div class="video-card glass-card card-animate">
+                    <div class="video-wrapper">
+                        <iframe src="{{ video.url }}" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <h3>{{ video.title }}</h3>
+                    <p>{{ video.description or '' }}</p>
+                </div>
+            {% else %}
+                <p style="grid-column:1/-1; text-align:center; color:#999;">أضف أعمال المونتاج من لوحة الإدارة</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
