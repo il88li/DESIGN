@@ -4,27 +4,58 @@
 
 {% block content %}
 
-<section class="section home-section glass-hero">
+<!-- ===== القسم 1: التعريف الشخصي ===== -->
+<section class="section home-section">
     <div class="container home-grid">
         <div class="home-text fade-in">
             <h1>مرحباً، أنا <span>يوسف</span></h1>
             <p class="tagline">مصمم جرافيك ومونتير فيديو محترف</p>
             <p class="bio">{{ bio }}</p>
-            <a href="{{ url_for('contact_page') }}" class="btn-glass"><i class="fas fa-paper-plane"></i> تواصل معي الآن</a>
+            <a href="#contact" class="btn-glass"><i class="fas fa-paper-plane"></i> تواصل معي الآن</a>
         </div>
         <div class="home-image fade-in">
-            <img src="{{ profile_img }}" alt="صورة يوسف" id="profile-image" class="glass-avatar">
+            <img src="{{ profile_img }}" alt="صورة يوسف" class="glass-avatar">
         </div>
     </div>
 </section>
 
-<!-- آراء العملاء (على الصفحة الرئيسية) -->
-<section class="section testimonials-preview">
+<!-- ===== القسم 2: الخدمات ===== -->
+<section id="services" class="section services-section">
+    <div class="container">
+        <h2 class="section-title">الخدمات <span>التي أقدمها</span></h2>
+        <div class="services-grid">
+            <div class="service-card glass-card card-animate">
+                <div class="service-icon"><i class="fas fa-palette"></i></div>
+                <h3>تصميم الهوية البصرية</h3>
+                <p>بناء هوية متكاملة تعكس شخصية علامتك التجارية.</p>
+            </div>
+            <div class="service-card glass-card card-animate">
+                <div class="service-icon"><i class="fas fa-hashtag"></i></div>
+                <h3>تصميم السوشيال ميديا</h3>
+                <p>منشورات جذابة واحترافية لتعزيز حضورك الرقمي.</p>
+            </div>
+            <div class="service-card glass-card card-animate">
+                <div class="service-icon"><i class="fas fa-tag"></i></div>
+                <h3>تصميم الشعارات</h3>
+                <p>شعارات مميزة وبسيطة تعلق في ذهن العميل.</p>
+            </div>
+            <div class="service-card glass-card card-animate">
+                <div class="service-icon"><i class="fas fa-film"></i></div>
+                <h3>المونتاج وتحرير الفيديو</h3>
+                <p>تحويل لقطاتك إلى قصة فيديو احترافية مؤثرة.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== القسم 3: آراء العملاء ===== -->
+<section id="testimonials" class="section testimonials-section">
     <div class="container">
         <h2 class="section-title">آراء <span>العملاء</span></h2>
         <div class="testimonials-grid">
-            {% for t in testimonials[:3] %}
+            {% for t in testimonials %}
                 <div class="testimonial-card glass-card card-animate">
+                    <div class="quote-icon"><i class="fas fa-quote-right"></i></div>
                     <p class="quote">“{{ t.text }}”</p>
                     <p class="client-name">- {{ t.name }}</p>
                     <p class="client-role">{{ t.role or '' }}</p>
@@ -33,8 +64,32 @@
                 <p style="grid-column:1/-1; text-align:center; color:#999;">أضف آراء العملاء من لوحة الإدارة</p>
             {% endfor %}
         </div>
-        <div style="text-align:center; margin-top:20px;">
-            <a href="{{ url_for('home') }}#testimonials" class="btn-glass-small">عرض الكل</a>
+    </div>
+</section>
+
+<!-- ===== القسم 4: التواصل ===== -->
+<section id="contact" class="section contact-section">
+    <div class="container">
+        <h2 class="section-title">تواصل <span>معي</span></h2>
+        <div class="contact-content glass-card card-animate">
+            <div class="contact-info">
+                <p class="contact-intro">يمكنك التواصل معي مباشرة عبر القنوات التالية:</p>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp" style="color:#25D366; font-size:1.8rem;"></i>
+                    <a href="https://wa.me/201289159354" target="_blank">+201289159354</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-telegram-plane" style="color:#26A5E4; font-size:1.8rem;"></i>
+                    <a href="https://t.me/T_A_1_H" target="_blank">@T_A_1_H</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope" style="color:#7B3FAF; font-size:1.8rem;"></i>
+                    <a href="mailto:your-email@example.com">your-email@example.com</a>
+                </div>
+            </div>
+            <div class="contact-note">
+                <p>أنا بانتظار فكرتك القادمة!<br>دعنا نعمل معاً على تحويل رؤيتك إلى واقع ملموس.</p>
+            </div>
         </div>
     </div>
 </section>
