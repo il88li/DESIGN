@@ -48,39 +48,30 @@ def upload_to_supabase(file):
 def is_authenticated():
     return session.get('logged_in', False)
 
+# ===== الصفحة الرئيسية (مدمجة مع الخدمات، الآراء، التواصل) =====
 @app.route('/')
 def home():
     bio = Setting.query.filter_by(key='bio_text').first()
     profile_img = Setting.query.filter_by(key='profile_image').first()
-    testimonials = Testimonial.query.order_by(Testimonial.created_at.desc()).limit(3).all()
+    testimonials = Testimonial.query.order_by(Testimonial.created_at.desc()).all()
     return render_template('home.html',
                            bio=bio.value if bio else '',
                            profile_img=profile_img.value if profile_img else '',
                            testimonials=testimonials)
 
+# ===== صفحة الأعمال =====
 @app.route('/portfolio')
 def portfolio_page():
     items = Portfolio.query.order_by(Portfolio.created_at.desc()).all()
     return render_template('portfolio.html', portfolio=items)
 
+# ===== صفحة الفيديوهات =====
 @app.route('/videos')
 def videos_page():
     items = Video.query.order_by(Video.created_at.desc()).all()
     return render_template('videos.html', videos=items)
 
-@app.route('/services')
-def services_page():
-    return render_template('services.html')
-
-@app.route('/contact')
-def contact_page():
-    return render_template('contact.html')
-
-@app.route('/testimonials')
-def testimonials_page():
-    all_testimonials = Testimonial.query.order_by(Testimonial.created_at.desc()).all()
-    return render_template('testimonials.html', testimonials=all_testimonials)
-
+# ===== إدارة تسجيل الدخول =====
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
