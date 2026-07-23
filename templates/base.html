@@ -7,14 +7,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (مكتبة أيقونات بديلة) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
 
-    <!-- ===== شريط التنقل الدائري الشفاف العائم ===== -->
+    <!-- ===== شريط التنقل الدائري الشفاف العائم (3 أزرار فقط) ===== -->
     <nav class="navbar-glass" id="navbarGlass">
         <!-- أيقونات التواصل (جهة اليمين) -->
         <div class="nav-social">
@@ -26,7 +25,7 @@
             </a>
         </div>
 
-        <!-- روابط جميع الصفحات -->
+        <!-- روابط الصفحات (3 فقط) -->
         <div class="nav-links-center">
             <a href="{{ url_for('home') }}" class="nav-item {% if request.endpoint == 'home' %}active{% endif %}">
                 <i class="fas fa-home"></i>
@@ -40,19 +39,10 @@
                 <i class="fas fa-video"></i>
                 <span>الفيديوهات</span>
             </a>
-            <a href="{{ url_for('testimonials_page') }}" class="nav-item {% if request.endpoint == 'testimonials_page' %}active{% endif %}">
-                <i class="fas fa-star"></i>
-                <span>الآراء</span>
-            </a>
-            <a href="{{ url_for('services_page') }}" class="nav-item {% if request.endpoint == 'services_page' %}active{% endif %}">
-                <i class="fas fa-cogs"></i>
-                <span>الخدمات</span>
-            </a>
-            <a href="{{ url_for('contact_page') }}" class="nav-item {% if request.endpoint == 'contact_page' %}active{% endif %}">
-                <i class="fas fa-envelope"></i>
-                <span>تواصل</span>
-            </a>
         </div>
+
+        <!-- مساحة فارغة للحفاظ على التماثل -->
+        <div class="nav-spacer"></div>
     </nav>
 
     <!-- ===== المحتوى الرئيسي ===== -->
