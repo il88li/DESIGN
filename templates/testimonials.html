@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}آراء العملاء - يوسف{% endblock %}
+
+{% block content %}
+<section class="section testimonials-section">
+    <div class="container">
+        <h2 class="section-title">آراء <span>العملاء</span></h2>
+        <div class="testimonials-grid">
+            {% for t in testimonials %}
+                <div class="testimonial-card glass-card card-animate">
+                    <p class="quote">“{{ t.text }}”</p>
+                    <p class="client-name">- {{ t.name }}</p>
+                    <p class="client-role">{{ t.role or '' }}</p>
+                </div>
+            {% else %}
+                <p style="grid-column:1/-1; text-align:center; color:#999;">أضف آراء العملاء من لوحة الإدارة</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
