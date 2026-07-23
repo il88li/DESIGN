@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}الرئيسية - مصمم جرافيك ومونتير فيديو{% endblock %}
+
+{% block content %}
+
+<section class="section home-section glass-hero">
+    <div class="container home-grid">
+        <div class="home-text fade-in">
+            <h1>مرحباً، أنا <span>يوسف</span></h1>
+            <p class="tagline">مصمم جرافيك ومونتير فيديو محترف</p>
+            <p class="bio">{{ bio }}</p>
+            <a href="{{ url_for('contact_page') }}" class="btn-glass"><i class="fas fa-paper-plane"></i> تواصل معي الآن</a>
+        </div>
+        <div class="home-image fade-in">
+            <img src="{{ profile_img }}" alt="صورة يوسف" id="profile-image" class="glass-avatar">
+        </div>
+    </div>
+</section>
+
+<!-- آراء العملاء (على الصفحة الرئيسية) -->
+<section class="section testimonials-preview">
+    <div class="container">
+        <h2 class="section-title">آراء <span>العملاء</span></h2>
+        <div class="testimonials-grid">
+            {% for t in testimonials[:3] %}
+                <div class="testimonial-card glass-card card-animate">
+                    <p class="quote">“{{ t.text }}”</p>
+                    <p class="client-name">- {{ t.name }}</p>
+                    <p class="client-role">{{ t.role or '' }}</p>
+                </div>
+            {% else %}
+                <p style="grid-column:1/-1; text-align:center; color:#999;">أضف آراء العملاء من لوحة الإدارة</p>
+            {% endfor %}
+        </div>
+        <div style="text-align:center; margin-top:20px;">
+            <a href="{{ url_for('home') }}#testimonials" class="btn-glass-small">عرض الكل</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
