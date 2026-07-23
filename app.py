@@ -40,7 +40,6 @@ def upload_to_supabase(file):
         supabase.storage.from_('portfolio').upload(filename, file_data)
         return supabase.storage.from_('portfolio').get_public_url(filename)
     except Exception as e:
-        # في حالة فشل Supabase نحفظ محلياً
         os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -49,7 +48,6 @@ def upload_to_supabase(file):
 def is_authenticated():
     return session.get('logged_in', False)
 
-# ===== الصفحات =====
 @app.route('/')
 def home():
     bio = Setting.query.filter_by(key='bio_text').first()
@@ -83,7 +81,6 @@ def testimonials_page():
     all_testimonials = Testimonial.query.order_by(Testimonial.created_at.desc()).all()
     return render_template('testimonials.html', testimonials=all_testimonials)
 
-# ===== إدارة تسجيل الدخول =====
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
@@ -136,7 +133,6 @@ def add_portfolio():
     
     image_path = None
     if image and image.filename:
-        # التحقق من نوع الملف وصحته
         allowed_extensions = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'}
         if '.' in image.filename:
             ext = image.filename.rsplit('.', 1)[1].lower()
@@ -190,7 +186,6 @@ def add_video():
         flash('رابط الفيديو مطلوب', 'danger')
         return redirect(url_for('admin_dashboard'))
     
-    # تحقق بسيط من صحة الرابط
     if not (url.startswith('http://') or url.startswith('https://')):
         flash('الرابط يجب أن يبدأ بـ http:// أو https://', 'danger')
         return redirect(url_for('admin_dashboard'))
@@ -264,7 +259,6 @@ def update_settings():
     bio_text = request.form.get('bio_text', '').strip()
     profile_image = request.files.get('profile_image')
     
-    # تحديث النص التعريفي
     if bio_text:
         setting = Setting.query.filter_by(key='bio_text').first()
         if setting:
@@ -274,9 +268,7 @@ def update_settings():
             db.session.add(setting)
     else:
         flash('النص التعريفي لا يمكن أن يكون فارغاً', 'warning')
-        # لكن لا نمنع التحديث، فقط ننبه
     
-    # تحديث الصورة الشخصية
     if profile_image and profile_image.filename:
         allowed_extensions = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'}
         if '.' in profile_image.filename:
