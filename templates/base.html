@@ -7,16 +7,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (رابط مباشر يعمل) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome 6 (رابط مباشر) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
 
-    <!-- ===== شريط التنقل الدائري الشفاف العائم (أزرار مكبرة) ===== -->
+    <!-- ===== شريط التنقل الدائري الشفاف العائم (أزرار مكبرة جداً) ===== -->
     <nav class="navbar-glass" id="navbarGlass">
-        <!-- أيقونات التواصل (واتساب وتلغرام) -->
+        <!-- أيقونات التواصل الجانبية -->
         <div class="nav-social">
             <a href="https://wa.me/201289159354" target="_blank" class="social-icon" title="واتساب">
                 <i class="fab fa-whatsapp"></i>
@@ -26,7 +26,7 @@
             </a>
         </div>
 
-        <!-- روابط الصفحات (أزرار مكبرة) -->
+        <!-- روابط الصفحات الرئيسية (أزرار مكبرة) -->
         <div class="nav-links-center">
             <a href="{{ url_for('home') }}" class="nav-item {% if request.endpoint == 'home' %}active{% endif %}">
                 <i class="fas fa-home"></i>
@@ -42,7 +42,7 @@
             </a>
         </div>
 
-        <!-- مساحة للحفاظ على التماثل -->
+        <!-- مساحة فارغة للحفاظ على التماثل -->
         <div class="nav-spacer"></div>
     </nav>
 
