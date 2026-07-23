@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section" style="padding-top:120px; min-height:80vh;">
+    <div class="container" style="max-width:400px; margin:0 auto;">
+        <h2 class="section-title" style="font-size:2rem;">تسجيل الدخول</h2>
+        <form method="POST" style="background:white; padding:30px; border-radius:20px; box-shadow:0 5px 20px rgba(0,0,0,0.08);">
+            <div style="margin-bottom:20px;">
+                <label style="display:block; font-weight:600; margin-bottom:5px;">كلمة المرور</label>
+                <input type="password" name="password" required style="width:100%; padding:12px; border:2px solid #DBB5EE; border-radius:10px; font-size:1rem;">
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%; text-align:center;">دخول</button>
+        </form>
+        <p style="text-align:center; margin-top:15px; color:#777;">كلمة المرور الافتراضية: <strong>123456</strong> (يمكنك تغييرها في config.py)</p>
+    </div>
+</section>
+{% endblock %}
