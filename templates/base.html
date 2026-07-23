@@ -13,9 +13,9 @@
 </head>
 <body>
 
-    <!-- ===== شريط التنقل الدائري الشفاف العائم (3 أزرار فقط) ===== -->
+    <!-- ===== شريط التنقل الدائري الشفاف العائم ===== -->
     <nav class="navbar-glass" id="navbarGlass">
-        <!-- أيقونات التواصل (جهة اليمين) -->
+        <!-- أيقونات التواصل (واتساب وتلغرام فقط) -->
         <div class="nav-social">
             <a href="https://wa.me/201289159354" target="_blank" class="social-icon" title="واتساب">
                 <i class="fab fa-whatsapp"></i>
@@ -25,7 +25,7 @@
             </a>
         </div>
 
-        <!-- روابط الصفحات (3 فقط) -->
+        <!-- روابط الصفحات -->
         <div class="nav-links-center">
             <a href="{{ url_for('home') }}" class="nav-item {% if request.endpoint == 'home' %}active{% endif %}">
                 <i class="fas fa-home"></i>
@@ -66,7 +66,6 @@
             <div class="footer-social">
                 <a href="https://wa.me/201289159354" target="_blank" title="واتساب"><i class="fab fa-whatsapp"></i></a>
                 <a href="https://t.me/T_A_1_H" target="_blank" title="تلغرام"><i class="fab fa-telegram-plane"></i></a>
-                <a href="mailto:your-email@example.com" target="_blank" title="البريد الإلكتروني"><i class="fas fa-envelope"></i></a>
             </div>
             <p>© 2026 يوسف - جميع الحقوق محفوظة. صمم بكل ❤️</p>
         </div>
