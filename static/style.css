@@ -1,0 +1,414 @@
+/* ===== إعادة تعيين أساسية وتحسين الخطوط ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #FFFDEE;
+    color: #2d1b36;
+    line-height: 1.7;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+:root {
+    --very-light: #FFFDEE;
+    --soft-lavender: #DBB5EE;
+    --deep-purple: #4C0585;
+    --text-dark: #2b1a33;
+    --shadow: 0 8px 25px rgba(76, 5, 133, 0.12);
+}
+
+/* ===== شريط التنقل ===== */
+.navbar {
+    background: white;
+    box-shadow: 0 2px 15px rgba(76, 5, 133, 0.08);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 0;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--deep-purple);
+    text-decoration: none;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: color 0.3s;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background: var(--deep-purple);
+    transition: width 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--deep-purple);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.hamburger span {
+    width: 28px;
+    height: 3px;
+    background: var(--deep-purple);
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+/* ===== الأزرار والعناوين ===== */
+.section {
+    padding: 80px 0 60px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--text-dark);
+}
+
+.section-title span {
+    color: var(--deep-purple);
+    position: relative;
+}
+
+.section-title span::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--soft-lavender);
+    border-radius: 5px;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 14px 40px;
+    background: var(--deep-purple);
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px rgba(76, 5, 133, 0.3);
+    border: 2px solid var(--deep-purple);
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(76, 5, 133, 0.4);
+    background: transparent;
+    color: var(--deep-purple);
+}
+
+/* ===== القسم الرئيسي ===== */
+.home-section {
+    padding-top: 120px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #FFFDEE 0%, #f5ebff 100%);
+}
+
+.home-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.home-text h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.home-text h1 span {
+    color: var(--deep-purple);
+    background: var(--soft-lavender);
+    padding: 0 15px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+.tagline {
+    font-size: 1.4rem;
+    color: var(--deep-purple);
+    font-weight: 600;
+    margin: 15px 0 20px;
+}
+
+.bio {
+    font-size: 1.1rem;
+    color: #444;
+    max-width: 500px;
+    margin-bottom: 30px;
+    line-height: 1.9;
+}
+
+.home-image img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 50%;
+    border: 8px solid var(--soft-lavender);
+    box-shadow: var(--shadow);
+    display: block;
+    margin: 0 auto;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+
+/* ===== معارض ===== */
+.portfolio-grid, .videos-grid, .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.portfolio-card, .video-card, .testimonial-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid rgba(219, 181, 238, 0.3);
+}
+
+.portfolio-card:hover, .video-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(76, 5, 133, 0.15);
+}
+
+.portfolio-card img, .video-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: var(--soft-lavender);
+}
+
+.portfolio-card h3, .video-card h3 {
+    padding: 15px 20px 0;
+    color: var(--deep-purple);
+}
+
+.portfolio-card p, .video-card p {
+    padding: 0 20px 20px;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.testimonial-card {
+    padding: 30px;
+    text-align: center;
+}
+
+.testimonial-card .quote {
+    font-size: 1.1rem;
+    color: #333;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.testimonial-card .client-name {
+    font-weight: 700;
+    color: var(--deep-purple);
+    font-size: 1.1rem;
+}
+
+/* ===== الخدمات ===== */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+}
+
+.service-card {
+    background: white;
+    padding: 35px 20px;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    transition: 0.3s;
+    border-bottom: 5px solid var(--soft-lavender);
+}
+
+.service-card:hover {
+    transform: scale(1.03);
+    border-bottom-color: var(--deep-purple);
+}
+
+.service-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+}
+
+/* ===== التواصل ===== */
+.contact-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    background: white;
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: var(--shadow);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.contact-item {
+    font-size: 1.3rem;
+    margin: 10px 0;
+}
+
+.contact-item a {
+    color: var(--deep-purple);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 2px solid var(--soft-lavender);
+    padding: 0 5px;
+}
+
+.contact-item a:hover {
+    color: #3a0468;
+}
+
+.contact-note {
+    text-align: center;
+    font-size: 1.2rem;
+    border-top: 2px dashed var(--soft-lavender);
+    padding-top: 25px;
+    width: 100%;
+}
+
+/* ===== تذييل ===== */
+footer {
+    background: var(--deep-purple);
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 30px;
+}
+
+/* ===== رسائل الفلاش ===== */
+.flash-messages {
+    max-width: 800px;
+    margin: 100px auto 20px;
+    padding: 0 20px;
+}
+
+.flash {
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.flash.success { background: #d4edda; color: #155724; border-right: 5px solid #28a745; }
+.flash.danger { background: #f8d7da; color: #721c24; border-right: 5px solid #dc3545; }
+.flash.warning { background: #fff3cd; color: #856404; border-right: 5px solid #ffc107; }
+.flash.info { background: #d1ecf1; color: #0c5460; border-right: 5px solid #17a2b8; }
+
+/* ===== التجاوب مع الجوال ===== */
+@media (max-width: 768px) {
+    .home-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .home-text h1 { font-size: 2.5rem; }
+    .bio { margin: 0 auto 30px; }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background: white;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 100%;
+        padding: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        gap: 15px;
+    }
+    .nav-links.active { display: flex; }
+    .hamburger { display: flex; }
+
+    .section-title { font-size: 2rem; }
+    .portfolio-grid, .videos-grid, .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+    .contact-content { padding: 30px 20px; }
+    .home-image img { max-width: 280px; }
+}
+
+/* تحسين إمكانية الوصول */
+a, button {
+    focus-visible: outline: 3px solid var(--deep-purple);
+    outline-offset: 3px;
+}
