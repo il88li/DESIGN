@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>يوسف - {% block title %}مصمم جرافيك ومونتير فيديو{% endblock %}</title>
-    <!-- خطوط وأيقونات -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -16,26 +15,57 @@
 
     <!-- ===== شريط التنقل الدائري الشفاف العائم ===== -->
     <nav class="navbar-glass" id="navbarGlass">
-        <a href="{{ url_for('home') }}" class="nav-item {% if request.endpoint == 'home' %}active{% endif %}">
-            <i class="fas fa-home"></i>
-            <span>الرئيسية</span>
-        </a>
-        <a href="{{ url_for('portfolio_page') }}" class="nav-item {% if request.endpoint == 'portfolio_page' %}active{% endif %}">
-            <i class="fas fa-paint-brush"></i>
-            <span>الأعمال</span>
-        </a>
-        <a href="{{ url_for('videos_page') }}" class="nav-item {% if request.endpoint == 'videos_page' %}active{% endif %}">
-            <i class="fas fa-video"></i>
-            <span>الفيديوهات</span>
-        </a>
-        <a href="{{ url_for('services_page') }}" class="nav-item {% if request.endpoint == 'services_page' %}active{% endif %}">
-            <i class="fas fa-cogs"></i>
-            <span>الخدمات</span>
-        </a>
-        <a href="{{ url_for('contact_page') }}" class="nav-item {% if request.endpoint == 'contact_page' %}active{% endif %}">
-            <i class="fas fa-envelope"></i>
-            <span>تواصل</span>
-        </a>
+        <!-- أيقونات التواصل (جهة اليمين) -->
+        <div class="nav-social">
+            <a href="https://wa.me/201289159354" target="_blank" class="social-icon" title="واتساب">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://t.me/T_A_1_H" target="_blank" class="social-icon" title="تلغرام">
+                <i class="fab fa-telegram-plane"></i>
+            </a>
+        </div>
+
+        <!-- روابط الصفحات الرئيسية -->
+        <div class="nav-links-center">
+            <a href="{{ url_for('home') }}" class="nav-item {% if request.endpoint == 'home' %}active{% endif %}">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a href="{{ url_for('portfolio_page') }}" class="nav-item {% if request.endpoint == 'portfolio_page' %}active{% endif %}">
+                <i class="fas fa-paint-brush"></i>
+                <span>الأعمال</span>
+            </a>
+            <a href="{{ url_for('videos_page') }}" class="nav-item {% if request.endpoint == 'videos_page' %}active{% endif %}">
+                <i class="fas fa-video"></i>
+                <span>الفيديوهات</span>
+            </a>
+            <a href="{{ url_for('services_page') }}" class="nav-item {% if request.endpoint == 'services_page' %}active{% endif %}">
+                <i class="fas fa-cogs"></i>
+                <span>الخدمات</span>
+            </a>
+            <a href="{{ url_for('contact_page') }}" class="nav-item {% if request.endpoint == 'contact_page' %}active{% endif %}">
+                <i class="fas fa-envelope"></i>
+                <span>تواصل</span>
+            </a>
+        </div>
+
+        <!-- اسم الصفحة الحالية + Admin -->
+        <div class="nav-page-title">
+            <span class="page-name">
+                <i class="fas fa-{% if request.endpoint == 'home' %}home{% elif request.endpoint == 'portfolio_page' %}paint-brush{% elif request.endpoint == 'videos_page' %}video{% elif request.endpoint == 'services_page' %}cogs{% elif request.endpoint == 'contact_page' %}envelope{% else %}circle{% endif %}"></i>
+                {% if request.endpoint == 'home' %}الرئيسية
+                {% elif request.endpoint == 'portfolio_page' %}الأعمال
+                {% elif request.endpoint == 'videos_page' %}الفيديوهات
+                {% elif request.endpoint == 'services_page' %}الخدمات
+                {% elif request.endpoint == 'contact_page' %}تواصل
+                {% else %}{{ request.endpoint }}{% endif %}
+            </span>
+            {% if session.logged_in %}
+                <a href="{{ url_for('admin_dashboard') }}" class="admin-link">admin</a>
+            {% else %}
+                <a href="{{ url_for('admin_login') }}" class="admin-link">admin</a>
+            {% endif %}
+        </div>
     </nav>
 
     <!-- ===== المحتوى الرئيسي ===== -->
@@ -53,9 +83,14 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- ===== تذييل ===== -->
+    <!-- ===== تذييل الصفحة ===== -->
     <footer>
         <div class="container">
+            <div class="footer-social">
+                <a href="https://wa.me/201289159354" target="_blank" title="واتساب"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://t.me/T_A_1_H" target="_blank" title="تلغرام"><i class="fab fa-telegram-plane"></i></a>
+                <a href="mailto:your-email@example.com" target="_blank" title="البريد الإلكتروني"><i class="fas fa-envelope"></i></a>
+            </div>
             <p>© 2026 يوسف - جميع الحقوق محفوظة. صمم بكل ❤️</p>
         </div>
     </footer>
