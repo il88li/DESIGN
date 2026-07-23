@@ -1,5 +1,4 @@
 import os
-import sys
 import uuid
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.utils import secure_filename
@@ -41,6 +40,7 @@ def upload_to_supabase(file):
         supabase.storage.from_('portfolio').upload(filename, file_data)
         return supabase.storage.from_('portfolio').get_public_url(filename)
     except Exception as e:
+        # في حالة فشل Supabase نحفظ محلياً
         os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -49,7 +49,7 @@ def upload_to_supabase(file):
 def is_authenticated():
     return session.get('logged_in', False)
 
-# ===== الصفحات الرئيسية =====
+# ===== الصفحات =====
 @app.route('/')
 def home():
     bio = Setting.query.filter_by(key='bio_text').first()
@@ -78,7 +78,6 @@ def services_page():
 def contact_page():
     return render_template('contact.html')
 
-# ===== صفحة آراء العملاء (جديدة) =====
 @app.route('/testimonials')
 def testimonials_page():
     all_testimonials = Testimonial.query.order_by(Testimonial.created_at.desc()).all()
@@ -120,24 +119,49 @@ def admin_dashboard():
                            bio=bio.value if bio else '',
                            profile_img=profile_img.value if profile_img else '')
 
-# ===== إدارة المحتوى (نفس السابق) =====
+# ===== دوال الإضافة المحسّنة =====
+
 @app.route('/admin/portfolio/add', methods=['POST'])
 def add_portfolio():
     if not is_authenticated():
         return redirect(url_for('admin_login'))
-    title = request.form.get('title')
-    description = request.form.get('description')
+    
+    title = request.form.get('title', '').strip()
+    description = request.form.get('description', '').strip()
     image = request.files.get('image')
+    
     if not title:
-        flash('العنوان مطلوب', 'danger')
+        flash('عنوان المشروع مطلوب', 'danger')
         return redirect(url_for('admin_dashboard'))
+    
     image_path = None
     if image and image.filename:
-        image_path = upload_to_supabase(image)
-    new_item = Portfolio(title=title, description=description, image=image_path)
-    db.session.add(new_item)
-    db.session.commit()
-    flash('تمت إضافة المشروع بنجاح', 'success')
+        # التحقق من نوع الملف وصحته
+        allowed_extensions = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'}
+        if '.' in image.filename:
+            ext = image.filename.rsplit('.', 1)[1].lower()
+            if ext in allowed_extensions:
+                try:
+                    image_path = upload_to_supabase(image)
+                except Exception as e:
+                    flash(f'حدث خطأ أثناء رفع الصورة: {str(e)}', 'danger')
+                    return redirect(url_for('admin_dashboard'))
+            else:
+                flash('نوع الملف غير مدعوم. يُسمح بـ: png, jpg, jpeg, gif, webp, svg', 'danger')
+                return redirect(url_for('admin_dashboard'))
+        else:
+            flash('اسم الملف غير صحيح', 'danger')
+            return redirect(url_for('admin_dashboard'))
+    
+    try:
+        new_item = Portfolio(title=title, description=description, image=image_path)
+        db.session.add(new_item)
+        db.session.commit()
+        flash('تمت إضافة المشروع بنجاح', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'حدث خطأ أثناء حفظ المشروع: {str(e)}', 'danger')
+    
     return redirect(url_for('admin_dashboard'))
 
 @app.route('/admin/portfolio/delete/<int:id>')
@@ -154,16 +178,32 @@ def delete_portfolio(id):
 def add_video():
     if not is_authenticated():
         return redirect(url_for('admin_login'))
-    title = request.form.get('video_title')
-    description = request.form.get('video_description')
-    url = request.form.get('video_url')
-    if not title or not url:
-        flash('العنوان والرابط مطلوبان', 'danger')
+    
+    title = request.form.get('video_title', '').strip()
+    description = request.form.get('video_description', '').strip()
+    url = request.form.get('video_url', '').strip()
+    
+    if not title:
+        flash('عنوان الفيديو مطلوب', 'danger')
         return redirect(url_for('admin_dashboard'))
-    new_video = Video(title=title, description=description, url=url)
-    db.session.add(new_video)
-    db.session.commit()
-    flash('تمت إضافة الفيديو بنجاح', 'success')
+    if not url:
+        flash('رابط الفيديو مطلوب', 'danger')
+        return redirect(url_for('admin_dashboard'))
+    
+    # تحقق بسيط من صحة الرابط
+    if not (url.startswith('http://') or url.startswith('https://')):
+        flash('الرابط يجب أن يبدأ بـ http:// أو https://', 'danger')
+        return redirect(url_for('admin_dashboard'))
+    
+    try:
+        new_video = Video(title=title, description=description, url=url)
+        db.session.add(new_video)
+        db.session.commit()
+        flash('تمت إضافة الفيديو بنجاح', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'حدث خطأ أثناء حفظ الفيديو: {str(e)}', 'danger')
+    
     return redirect(url_for('admin_dashboard'))
 
 @app.route('/admin/video/delete/<int:id>')
@@ -180,16 +220,30 @@ def delete_video(id):
 def add_testimonial():
     if not is_authenticated():
         return redirect(url_for('admin_login'))
-    name = request.form.get('client_name')
-    role = request.form.get('client_role')
-    text = request.form.get('client_text')
-    if not name or not text:
-        flash('الاسم والنص مطلوبان', 'danger')
+    
+    name = request.form.get('client_name', '').strip()
+    role = request.form.get('client_role', '').strip()
+    text = request.form.get('client_text', '').strip()
+    
+    if not name:
+        flash('اسم العميل مطلوب', 'danger')
         return redirect(url_for('admin_dashboard'))
-    new_testimonial = Testimonial(name=name, role=role, text=text)
-    db.session.add(new_testimonial)
-    db.session.commit()
-    flash('تمت إضافة الرأي بنجاح', 'success')
+    if not text:
+        flash('نص الرأي مطلوب', 'danger')
+        return redirect(url_for('admin_dashboard'))
+    if len(text) < 5:
+        flash('نص الرأي قصير جداً (يجب أن يكون 5 أحرف على الأقل)', 'danger')
+        return redirect(url_for('admin_dashboard'))
+    
+    try:
+        new_testimonial = Testimonial(name=name, role=role, text=text)
+        db.session.add(new_testimonial)
+        db.session.commit()
+        flash('تمت إضافة الرأي بنجاح', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'حدث خطأ أثناء حفظ الرأي: {str(e)}', 'danger')
+    
     return redirect(url_for('admin_dashboard'))
 
 @app.route('/admin/testimonial/delete/<int:id>')
@@ -206,8 +260,11 @@ def delete_testimonial(id):
 def update_settings():
     if not is_authenticated():
         return redirect(url_for('admin_login'))
-    bio_text = request.form.get('bio_text')
+    
+    bio_text = request.form.get('bio_text', '').strip()
     profile_image = request.files.get('profile_image')
+    
+    # تحديث النص التعريفي
     if bio_text:
         setting = Setting.query.filter_by(key='bio_text').first()
         if setting:
@@ -215,16 +272,41 @@ def update_settings():
         else:
             setting = Setting(key='bio_text', value=bio_text)
             db.session.add(setting)
+    else:
+        flash('النص التعريفي لا يمكن أن يكون فارغاً', 'warning')
+        # لكن لا نمنع التحديث، فقط ننبه
+    
+    # تحديث الصورة الشخصية
     if profile_image and profile_image.filename:
-        image_path = upload_to_supabase(profile_image)
-        setting = Setting.query.filter_by(key='profile_image').first()
-        if setting:
-            setting.value = image_path
+        allowed_extensions = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'}
+        if '.' in profile_image.filename:
+            ext = profile_image.filename.rsplit('.', 1)[1].lower()
+            if ext in allowed_extensions:
+                try:
+                    image_path = upload_to_supabase(profile_image)
+                    setting = Setting.query.filter_by(key='profile_image').first()
+                    if setting:
+                        setting.value = image_path
+                    else:
+                        setting = Setting(key='profile_image', value=image_path)
+                        db.session.add(setting)
+                except Exception as e:
+                    flash(f'حدث خطأ أثناء رفع الصورة: {str(e)}', 'danger')
+                    return redirect(url_for('admin_dashboard'))
+            else:
+                flash('نوع الملف غير مدعوم للصورة الشخصية', 'danger')
+                return redirect(url_for('admin_dashboard'))
         else:
-            setting = Setting(key='profile_image', value=image_path)
-            db.session.add(setting)
-    db.session.commit()
-    flash('تم تحديث الإعدادات', 'success')
+            flash('اسم الملف غير صحيح', 'danger')
+            return redirect(url_for('admin_dashboard'))
+    
+    try:
+        db.session.commit()
+        flash('تم تحديث الإعدادات بنجاح', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'حدث خطأ أثناء حفظ الإعدادات: {str(e)}', 'danger')
+    
     return redirect(url_for('admin_dashboard'))
 
 if __name__ == '__main__':
