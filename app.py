@@ -7,16 +7,13 @@ from datetime import datetime
 from models import db, Portfolio, Video, Testimonial, Setting
 from config import Config
 
-# ===== إنشاء تطبيق Flask =====
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# ===== حل مشكلة نظام الملفات للقراءة فقط في Vercel =====
 if os.environ.get('DATABASE_URL'):
     app.instance_path = '/tmp'
     os.makedirs(app.instance_path, exist_ok=True)
 
-# ===== تهيئة قاعدة البيانات =====
 db.init_app(app)
 
 with app.app_context():
@@ -29,14 +26,12 @@ with app.app_context():
         db.session.add(img)
     db.session.commit()
 
-# ===== دالة رفع الصور =====
 def upload_to_supabase(file):
     if not app.config.get('SUPABASE_URL') or not app.config.get('SUPABASE_KEY'):
         os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         return os.path.join('uploads', filename)
-    
     try:
         from supabase import create_client
         supabase = create_client(app.config['SUPABASE_URL'], app.config['SUPABASE_KEY'])
@@ -54,13 +49,12 @@ def upload_to_supabase(file):
 def is_authenticated():
     return session.get('logged_in', False)
 
-# ===== مسارات الصفحات المنفصلة =====
-
+# ===== الصفحات الرئيسية =====
 @app.route('/')
 def home():
     bio = Setting.query.filter_by(key='bio_text').first()
     profile_img = Setting.query.filter_by(key='profile_image').first()
-    testimonials = Testimonial.query.order_by(Testimonial.created_at.desc()).all()
+    testimonials = Testimonial.query.order_by(Testimonial.created_at.desc()).limit(3).all()
     return render_template('home.html',
                            bio=bio.value if bio else '',
                            profile_img=profile_img.value if profile_img else '',
@@ -83,6 +77,12 @@ def services_page():
 @app.route('/contact')
 def contact_page():
     return render_template('contact.html')
+
+# ===== صفحة آراء العملاء (جديدة) =====
+@app.route('/testimonials')
+def testimonials_page():
+    all_testimonials = Testimonial.query.order_by(Testimonial.created_at.desc()).all()
+    return render_template('testimonials.html', testimonials=all_testimonials)
 
 # ===== إدارة تسجيل الدخول =====
 @app.route('/admin/login', methods=['GET', 'POST'])
@@ -108,13 +108,11 @@ def admin_dashboard():
     if not is_authenticated():
         flash('يرجى تسجيل الدخول أولاً', 'warning')
         return redirect(url_for('admin_login'))
-    
     portfolio = Portfolio.query.all()
     videos = Video.query.all()
     testimonials = Testimonial.query.all()
     bio = Setting.query.filter_by(key='bio_text').first()
     profile_img = Setting.query.filter_by(key='profile_image').first()
-    
     return render_template('admin_dashboard.html',
                            portfolio=portfolio,
                            videos=videos,
