@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}معرض الأعمال - يوسف{% endblock %}
+
+{% block content %}
+<section class="section portfolio-section">
+    <div class="container">
+        <h2 class="section-title">أعمالي <span>التصميمية</span></h2>
+        <div class="portfolio-grid">
+            {% for item in portfolio %}
+                <div class="portfolio-card glass-card card-animate">
+                    <img src="{{ url_for('static', filename=item.image) if item.image else 'https://via.placeholder.com/400x200/DBB5EE/FFFFFF?text=Project' }}" alt="{{ item.title }}">
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.description or '' }}</p>
+                </div>
+            {% else %}
+                <p style="grid-column:1/-1; text-align:center; color:#999;">أضف مشاريعك من لوحة الإدارة</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
