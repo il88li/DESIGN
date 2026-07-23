@@ -25,7 +25,7 @@
             </a>
         </div>
 
-        <!-- روابط الصفحات الرئيسية -->
+        <!-- روابط الصفحات الرئيسية (مع أسماء كاملة) -->
         <div class="nav-links-center">
             <a href="{{ url_for('home') }}" class="nav-item {% if request.endpoint == 'home' %}active{% endif %}">
                 <i class="fas fa-home"></i>
@@ -49,7 +49,7 @@
             </a>
         </div>
 
-        <!-- اسم الصفحة الحالية + Admin -->
+        <!-- اسم الصفحة الحالية (بدون admin) -->
         <div class="nav-page-title">
             <span class="page-name">
                 <i class="fas fa-{% if request.endpoint == 'home' %}home{% elif request.endpoint == 'portfolio_page' %}paint-brush{% elif request.endpoint == 'videos_page' %}video{% elif request.endpoint == 'services_page' %}cogs{% elif request.endpoint == 'contact_page' %}envelope{% else %}circle{% endif %}"></i>
@@ -60,11 +60,6 @@
                 {% elif request.endpoint == 'contact_page' %}تواصل
                 {% else %}{{ request.endpoint }}{% endif %}
             </span>
-            {% if session.logged_in %}
-                <a href="{{ url_for('admin_dashboard') }}" class="admin-link">admin</a>
-            {% else %}
-                <a href="{{ url_for('admin_login') }}" class="admin-link">admin</a>
-            {% endif %}
         </div>
     </nav>
 
