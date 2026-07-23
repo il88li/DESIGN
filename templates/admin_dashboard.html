@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section" style="padding-top:120px;">
+    <div class="container">
+        <h2 class="section-title">لوحة <span>الإدارة</span></h2>
+        
+        <!-- تحديث الإعدادات -->
+        <div style="background:white; padding:30px; border-radius:20px; box-shadow:0 5px 20px rgba(0,0,0,0.05); margin-bottom:30px;">
+            <h3 style="color:#4C0585; margin-bottom:20px;">تحديث النص التعريفي والصورة الشخصية</h3>
+            <form method="POST" action="{{ url_for('update_settings') }}" enctype="multipart/form-data">
+                <div style="margin-bottom:15px;">
+                    <label>النص التعريفي</label>
+                    <textarea name="bio_text" rows="4" style="width:100%; padding:10px; border:2px solid #DBB5EE; border-radius:10px;">{{ bio }}</textarea>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label>الصورة الشخصية (اختر ملف جديد)</label>
+                    <input type="file" name="profile_image" accept="image/*" style="display:block; margin-top:5px;">
+                    <small style="color:#777;">الصورة الحالية: <img src="{{ profile_img }}" style="max-width:60px; border-radius:50%; vertical-align:middle; margin-right:10px;"></small>
+                </div>
+                <button type="submit" class="btn-primary">تحديث</button>
+            </form>
+        </div>
+
+        <!-- إضافة مشروع جديد -->
+        <div style="background:white; padding:30px; border-radius:20px; box-shadow:0 5px 20px rgba(0,0,0,0.05); margin-bottom:30px;">
+            <h3 style="color:#4C0585;">إضافة مشروع جديد</h3>
+            <form method="POST" action="{{ url_for('add_portfolio') }}" enctype="multipart/form-data">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                    <div>
+                        <label>عنوان المشروع</label>
+                        <input type="text" name="title" required style="width:100%; padding:10px; border:2px solid #DBB5EE; border-radius:10px;">
+                    </div>
+                    <div>
+                        <label>صورة المشروع</label>
+                        <input type="file" name="image" accept="image/*" style="width:100%;">
+                    </div>
+                </div>
+                <div style="margin-top:10px;">
+                    <label>وصف المشروع</label>
+                    <input type="text" name="description" style="width:100%; padding:10px; border:2px solid #DBB5EE; border-radius:10px;">
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top:15px;">إضافة</button>
+            </form>
+        </div>
+
+        <!-- قائمة المشاريع الحالية -->
+        <div style="background:white; padding:30px; border-radius:20px; box-shadow:0 5px 20px rgba(0,0,0,0.05); margin-bottom:30px;">
+            <h3 style="color:#4C0585;">المشاريع الحالية</h3>
+            <ul style="list-style:none; padding:0;">
+                {% for item in portfolio %}
+                    <li style="padding:10px 0; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+                        <span>{{ item.title }}</span>
+                        <a href="{{ url_for('delete_portfolio', id=item.id) }}" style="color:red; text-decoration:none; font-weight:bold;" onclick="return confirm('هل أنت متأكد من الحذف؟')">🗑️ حذف</a>
+                    </li>
+                {% else %}
+                    <li>لا توجد مشاريع حتى الآن</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- إضافة فيديو جديد -->
+        <div style="background:white; padding:30px; border-radius:20px; box-shadow:0 5px 20px rgba(0,0,0,0.05); margin-bottom:30px;">
+            <h3 style="color:#4C0585;">إضافة فيديو جديد</h3>
+            <form method="POST" action="{{ url_for('add_video') }}">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                    <div>
+                        <label>عنوان الفيديو</label>
+                        <input type="text" name="video_title" required style="width:100%; padding:10px; border:2px solid #DBB5EE; border-radius:10px;">
+                    </div>
+                    <div>
+                        <label>رابط الفيديو (YouTube أو Vimeo)</label>
+                        <input type="url" name="video_url" required placeholder="https://www.youtube.com/embed/..." style="width:100%; padding:10px; border:2px solid #DBB5EE; border-radius:10px;">
+                    </div>
+                </div>
+                <div style="margin-top:10px;">
+                    <label>وصف الفيديو</label>
+                    <input type="text" name="video_description" style="width:100%; padding:10px; border:2px solid #DBB5EE; border-radius:10px;">
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top:15px;">إضافة فيديو</button>
+            </form>
+        </div>
+
+        <!-- قائمة الفيديوهات الحالية -->
+        <div style="background:white; padding:30px; border-radius:20px; box-shadow:0 5px 20px rgba(0,0,0,0.05); margin-bottom:30px;">
+            <h3 style="color:#4C0585;">الفيديوهات الحالية</h3>
+            <ul>
+                {% for v in videos %}
+                    <li style="padding:10px 0; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+                        <span>{{ v.title }}</span>
+                        <a href="{{ url_for('delete_video', id=v.id) }}" style="color:red;" onclick="return confirm('حذف؟')">🗑️ حذف</a>
+                    </li>
+                {% else %}
+                    <li>لا توجد فيديوهات</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- إضافة رأي جديد -->
+        <div style="background:white; padding:30px; border-radius:20px; box-shadow:0 5px 20px rgba(0,0,0,0.05); margin-bottom:30px;">
+            <h3 style="color:#4C0585;">إضافة رأي عميل</h3>
+            <form method="POST" action="{{ url_for('add_testimonial') }}">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                    <div>
+                        <label>اسم العميل</label>
+                        <input type="text" name="client_name" required style="width:100%; padding:10px; border:2px solid #DBB5EE; border-radius:10px;">
+                    </div>
+                    <div>
+                        <label>المسمى الوظيفي (اختياري)</label>
+                        <input type="text" name="client_role" style="width:100%; padding:10px; border:2px solid #DBB5EE; border-radius:10px;">
+                    </div>
+                </div>
+                <div style="margin-top:10px;">
+                    <label>نص الرأي</label>
+                    <textarea name="client_text" rows="3" required style="width:100%; padding:10px; border:2px solid #DBB5EE; border-radius:10px;"></textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top:15px;">إضافة رأي</button>
+            </form>
+        </div>
+
+        <!-- قائمة الآراء الحالية -->
+        <div style="background:white; padding:30px; border-radius:20px; box-shadow:0 5px 20px rgba(0,0,0,0.05);">
+            <h3 style="color:#4C0585;">آراء العملاء الحالية</h3>
+            <ul>
+                {% for t in testimonials %}
+                    <li style="padding:10px 0; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+                        <span>{{ t.name }}: {{ t.text[:30] }}...</span>
+                        <a href="{{ url_for('delete_testimonial', id=t.id) }}" style="color:red;" onclick="return confirm('حذف؟')">🗑️ حذف</a>
+                    </li>
+                {% else %}
+                    <li>لا توجد آراء</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}
