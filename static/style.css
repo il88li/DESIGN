@@ -13,7 +13,7 @@ body {
     min-height: 100vh;
     color: #2d1b36;
     line-height: 1.7;
-    padding-bottom: 110px;
+    padding-bottom: 120px;
 }
 .container {
     width: 92%;
@@ -36,44 +36,44 @@ body {
     --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* ===== شريط التنقل الدائري الشفاف العائم (أزرار مكبرة) ===== */
+/* ===== شريط التنقل الدائري الشفاف العائم (أزرار مكبرة جداً) ===== */
 .navbar-glass {
     position: fixed;
-    bottom: 28px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
-    background: rgba(255, 255, 255, 0.75);
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.78);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 100px;
-    padding: 14px 24px;
-    box-shadow: 0 12px 50px rgba(76, 5, 133, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    border-radius: 120px;
+    padding: 16px 28px;
+    box-shadow: 0 16px 60px rgba(76, 5, 133, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
     z-index: 999;
     width: auto;
     max-width: 98%;
-    min-width: 340px;
+    min-width: 400px;
     transition: all 0.3s ease;
 }
 .nav-social {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
 }
 .nav-social .social-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: rgba(123, 63, 175, 0.08);
     color: var(--primary);
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     transition: all 0.3s ease;
     text-decoration: none;
 }
@@ -81,12 +81,12 @@ body {
     background: var(--primary);
     color: white;
     transform: scale(1.08);
-    box-shadow: 0 4px 15px rgba(123, 63, 175, 0.25);
+    box-shadow: 0 4px 20px rgba(123, 63, 175, 0.3);
 }
 .nav-links-center {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     flex: 1;
     justify-content: center;
 }
@@ -97,22 +97,22 @@ body {
     justify-content: center;
     text-decoration: none;
     color: #8a7a9a;
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 700;
-    padding: 8px 18px;
-    border-radius: 60px;
+    padding: 10px 22px;
+    border-radius: 80px;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    min-width: 68px;
+    min-width: 80px;
     position: relative;
     background: transparent;
 }
 .navbar-glass .nav-item i {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     transition: transform 0.3s, color 0.3s;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
 }
 .navbar-glass .nav-item span {
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     font-weight: 600;
     opacity: 0.9;
     white-space: nowrap;
@@ -123,15 +123,15 @@ body {
     background: rgba(123, 63, 175, 0.05);
 }
 .navbar-glass .nav-item:hover i {
-    transform: translateY(-4px) scale(1.08);
+    transform: translateY(-5px) scale(1.08);
 }
 .navbar-glass .nav-item.active {
     color: white;
     background: var(--primary);
-    box-shadow: 0 6px 30px rgba(123, 63, 175, 0.4);
+    box-shadow: 0 6px 35px rgba(123, 63, 175, 0.45);
 }
 .navbar-glass .nav-item.active i {
-    transform: translateY(-5px) scale(1.15);
+    transform: translateY(-6px) scale(1.18);
     color: white;
 }
 .navbar-glass .nav-item.active span {
@@ -139,25 +139,51 @@ body {
     opacity: 1;
 }
 .nav-spacer {
-    width: 44px;
+    width: 50px;
 }
 
 /* ===== تحسين التجاوب ===== */
-@media (max-width: 768px) {
+@media (max-width: 820px) {
     .navbar-glass {
-        padding: 10px 16px;
-        gap: 10px;
-        border-radius: 80px;
+        padding: 12px 20px;
+        gap: 14px;
+        border-radius: 100px;
         min-width: auto;
     }
     .nav-social .social-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 1.2rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
     }
     .navbar-glass .nav-item {
-        min-width: 54px;
-        padding: 6px 12px;
+        min-width: 64px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+    .navbar-glass .nav-item i {
+        font-size: 1.7rem;
+    }
+    .navbar-glass .nav-item span {
+        font-size: 0.7rem;
+    }
+    .nav-spacer {
+        width: 40px;
+    }
+}
+@media (max-width: 580px) {
+    .navbar-glass {
+        padding: 10px 14px;
+        gap: 8px;
+        border-radius: 80px;
+    }
+    .nav-social .social-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 1.1rem;
+    }
+    .navbar-glass .nav-item {
+        min-width: 52px;
+        padding: 6px 10px;
         font-size: 0.7rem;
     }
     .navbar-glass .nav-item i {
@@ -167,23 +193,23 @@ body {
         font-size: 0.6rem;
     }
     .nav-spacer {
-        width: 36px;
+        width: 34px;
     }
 }
-@media (max-width: 480px) {
+@media (max-width: 400px) {
     .navbar-glass {
-        padding: 8px 12px;
-        gap: 6px;
+        padding: 8px 10px;
+        gap: 4px;
         border-radius: 60px;
     }
     .nav-social .social-icon {
-        width: 30px;
-        height: 30px;
-        font-size: 1rem;
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
     }
     .navbar-glass .nav-item {
-        min-width: 44px;
-        padding: 4px 8px;
+        min-width: 40px;
+        padding: 4px 6px;
         font-size: 0.6rem;
     }
     .navbar-glass .nav-item i {
@@ -193,39 +219,50 @@ body {
         font-size: 0.5rem;
     }
     .nav-spacer {
-        width: 30px;
-    }
-}
-@media (max-width: 380px) {
-    .navbar-glass {
-        padding: 6px 8px;
-        gap: 4px;
-        border-radius: 50px;
-    }
-    .nav-social .social-icon {
-        width: 26px;
-        height: 26px;
-        font-size: 0.8rem;
-    }
-    .navbar-glass .nav-item {
-        min-width: 36px;
-        padding: 3px 6px;
-        font-size: 0.5rem;
-    }
-    .navbar-glass .nav-item i {
-        font-size: 0.9rem;
-    }
-    .navbar-glass .nav-item span {
-        font-size: 0.4rem;
-    }
-    .nav-spacer {
-        width: 26px;
+        width: 28px;
     }
 }
 
-/* ===== باقي التنسيقات ===== */
+/* ===== الأزرار في الصفحة الرئيسية (متناسقة) ===== */
+.btn-glass {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 38px;
+    background: rgba(123, 63, 175, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(123, 63, 175, 0.25);
+    border-radius: 60px;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(123, 63, 175, 0.1);
+}
+.btn-glass:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 35px rgba(123, 63, 175, 0.3);
+}
+.btn-glass i {
+    font-size: 1.2rem;
+}
+.btn-large {
+    padding: 18px 44px;
+    font-size: 1.2rem;
+}
+.btn-large i {
+    font-size: 1.3rem;
+}
 
-/* البطاقات الزجاجية */
+/* ===== باقي التنسيقات (نفس السابق مع تحسينات طفيفة) ===== */
+/* ... (جميع التنسيقات الأخرى محتفظ بها كما هي) ... */
+/* أضف هنا التنسيقات السابقة للبطاقات، العناوين، الخدمات، الآراء، التواصل، التذييل، التأثيرات */
+
+/* ===== اختصار للتنسيقات السابقة (يجب تضمينها) ===== */
 .glass-card {
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(var(--glass-blur));
@@ -262,33 +299,6 @@ body {
     padding: 4px 18px 18px;
     line-height: 1.8;
 }
-
-/* الأزرار الزجاجية */
-.btn-glass {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 32px;
-    background: rgba(123, 63, 175, 0.15);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(123, 63, 175, 0.25);
-    border-radius: 50px;
-    color: var(--primary);
-    font-weight: 700;
-    font-size: 1rem;
-    text-decoration: none;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(123, 63, 175, 0.1);
-}
-.btn-glass:hover {
-    background: var(--primary);
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(123, 63, 175, 0.25);
-}
-
-/* العناوين */
 .section {
     padding: 60px 0 40px;
 }
@@ -313,8 +323,6 @@ body {
     background: var(--primary-lighter);
     border-radius: 5px;
 }
-
-/* القسم الرئيسي */
 .home-section {
     padding-top: 40px;
     min-height: 85vh;
@@ -363,8 +371,6 @@ body {
     aspect-ratio: 1/1;
     object-fit: cover;
 }
-
-/* الشبكات */
 .portfolio-grid, .videos-grid, .testimonials-grid, .services-grid {
     display: grid;
     gap: 28px;
@@ -375,8 +381,6 @@ body {
 .services-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
-
-/* الخدمات */
 .service-card.glass-card {
     padding: 30px 20px;
     text-align: center;
@@ -407,8 +411,6 @@ body {
 .service-card.glass-card p {
     padding: 0;
 }
-
-/* آراء العملاء */
 .testimonial-card.glass-card {
     padding: 25px 20px;
     text-align: center;
@@ -434,8 +436,6 @@ body {
     color: var(--text-soft);
     font-size: 0.85rem;
 }
-
-/* التواصل */
 .contact-content {
     max-width: 600px;
     margin: 0 auto;
@@ -483,8 +483,6 @@ body {
     margin-top: 20px;
     color: var(--text-soft);
 }
-
-/* تذييل */
 footer {
     text-align: center;
     padding: 20px 0 10px;
@@ -506,8 +504,6 @@ footer {
     color: var(--primary);
     transform: translateY(-3px);
 }
-
-/* رسائل الفلاش */
 .flash-messages {
     max-width: 800px;
     margin: 20px auto 10px;
@@ -525,8 +521,6 @@ footer {
 .flash.danger { border-right: 5px solid #dc3545; }
 .flash.warning { border-right: 5px solid #ffc107; }
 .flash.info { border-right: 5px solid #17a2b8; }
-
-/* تأثيرات الحركة */
 .fade-in {
     opacity: 0;
     transform: translateY(30px);
@@ -544,8 +538,6 @@ footer {
     opacity: 1;
     transform: translateY(0);
 }
-
-/* تحسين إمكانية الوصول */
 a, button {
     focus-visible: outline: 3px solid var(--primary);
     outline-offset: 3px;
