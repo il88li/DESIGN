@@ -25,7 +25,7 @@
             </a>
         </div>
 
-        <!-- روابط الصفحات الرئيسية (مع أسماء كاملة) -->
+        <!-- روابط جميع الصفحات (6 أزرار) -->
         <div class="nav-links-center">
             <a href="{{ url_for('home') }}" class="nav-item {% if request.endpoint == 'home' %}active{% endif %}">
                 <i class="fas fa-home"></i>
@@ -39,6 +39,10 @@
                 <i class="fas fa-video"></i>
                 <span>الفيديوهات</span>
             </a>
+            <a href="{{ url_for('testimonials_page') }}" class="nav-item {% if request.endpoint == 'testimonials_page' %}active{% endif %}">
+                <i class="fas fa-star"></i>
+                <span>الآراء</span>
+            </a>
             <a href="{{ url_for('services_page') }}" class="nav-item {% if request.endpoint == 'services_page' %}active{% endif %}">
                 <i class="fas fa-cogs"></i>
                 <span>الخدمات</span>
@@ -49,13 +53,14 @@
             </a>
         </div>
 
-        <!-- اسم الصفحة الحالية (بدون admin) -->
+        <!-- اسم الصفحة الحالية -->
         <div class="nav-page-title">
             <span class="page-name">
-                <i class="fas fa-{% if request.endpoint == 'home' %}home{% elif request.endpoint == 'portfolio_page' %}paint-brush{% elif request.endpoint == 'videos_page' %}video{% elif request.endpoint == 'services_page' %}cogs{% elif request.endpoint == 'contact_page' %}envelope{% else %}circle{% endif %}"></i>
+                <i class="fas fa-{% if request.endpoint == 'home' %}home{% elif request.endpoint == 'portfolio_page' %}paint-brush{% elif request.endpoint == 'videos_page' %}video{% elif request.endpoint == 'testimonials_page' %}star{% elif request.endpoint == 'services_page' %}cogs{% elif request.endpoint == 'contact_page' %}envelope{% else %}circle{% endif %}"></i>
                 {% if request.endpoint == 'home' %}الرئيسية
                 {% elif request.endpoint == 'portfolio_page' %}الأعمال
                 {% elif request.endpoint == 'videos_page' %}الفيديوهات
+                {% elif request.endpoint == 'testimonials_page' %}الآراء
                 {% elif request.endpoint == 'services_page' %}الخدمات
                 {% elif request.endpoint == 'contact_page' %}تواصل
                 {% else %}{{ request.endpoint }}{% endif %}
