@@ -1,4 +1,5 @@
 import os
+import sys
 import uuid
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.utils import secure_filename
@@ -7,14 +8,22 @@ from models import db, Portfolio, Video, Testimonial, Setting
 from config import Config
 
 # ===== إنشاء تطبيق Flask =====
-# هذا هو المتغير العام الذي تبحث عنه Vercel
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# تهيئة قاعدة البيانات
+# ===== حل مشكلة نظام الملفات للقراءة فقط في Vercel =====
+# إذا كان متغير DATABASE_URL موجوداً (أي أننا في بيئة إنتاج تستخدم PostgreSQL)،
+# نغير مجلد المثيل إلى /tmp لتفادي محاولة الكتابة في نظام الملفات للقراءة فقط.
+if os.environ.get('DATABASE_URL'):
+    app.instance_path = '/tmp'
+    # نضمن وجود المجلد (آمن لأن /tmp موجود دائماً)
+    os.makedirs(app.instance_path, exist_ok=True)
+    print(f"✅ تم تعيين instance_path إلى: {app.instance_path}")
+
+# ===== تهيئة قاعدة البيانات =====
 db.init_app(app)
 
-# إنشاء الجداول إذا لم تكن موجودة (آمن للتشغيل المحلي وأيضاً مع PostgreSQL)
+# ===== إنشاء الجداول إذا لم تكن موجودة =====
 with app.app_context():
     db.create_all()
     # إعدادات افتراضية (النص التعريفي والصورة الشخصية)
@@ -247,6 +256,6 @@ def update_settings():
     flash('تم تحديث الإعدادات', 'success')
     return redirect(url_for('admin_dashboard'))
 
-# ===== نقطة الدخول للتشغيل المحلي (لن تؤثر على Vercel) =====
+# ===== نقطة الدخول للتشغيل المحلي =====
 if __name__ == '__main__':
     app.run(debug=True)
