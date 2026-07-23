@@ -1,122 +1,190 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>يوسف - مصمم جرافيك ومونتير فيديو</title>
+    <!-- خط Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (أيقونات حقيقية) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- ملف التصميم -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
-{% block content %}
-
-<section id="home" class="section home-section">
-    <div class="container home-grid">
-        <div class="home-text">
-            <h1>مرحباً، أنا <span>يوسف</span></h1>
-            <p class="tagline">مصمم جرافيك ومونتير فيديو محترف</p>
-            <p class="bio">{{ bio }}</p>
-            <a href="#contact" class="btn-primary">تواصل معي الآن</a>
+    <!-- ===== شريط التنقل العلوي (يظهر فقط على الشاشات الكبيرة) ===== -->
+    <nav class="navbar-top" id="navbarTop">
+        <div class="container nav-container">
+            <a href="/" class="logo">يوسف</a>
+            <ul class="nav-links">
+                <li><a href="#home"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li><a href="#portfolio"><i class="fas fa-paint-brush"></i> الأعمال</a></li>
+                <li><a href="#videos"><i class="fas fa-video"></i> الفيديوهات</a></li>
+                <li><a href="#services"><i class="fas fa-cogs"></i> الخدمات</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> تواصل</a></li>
+                {% if session.logged_in %}
+                    <li><a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-user-cog"></i> لوحة الإدارة</a></li>
+                    <li><a href="{{ url_for('admin_logout') }}"><i class="fas fa-sign-out-alt"></i> خروج</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('admin_login') }}"><i class="fas fa-lock"></i> تسجيل الدخول</a></li>
+                {% endif %}
+            </ul>
         </div>
-        <div class="home-image">
-            <img src="{{ profile_img }}" alt="صورة يوسف الشخصية">
-        </div>
-    </div>
-</section>
+    </nav>
 
-<section id="portfolio" class="section portfolio-section">
-    <div class="container">
-        <h2 class="section-title">أعمالي <span>التصميمية</span></h2>
-        <div class="portfolio-grid">
-            {% for item in portfolio %}
-                <div class="portfolio-card">
-                    <img src="{{ url_for('static', filename=item.image) if item.image else 'https://via.placeholder.com/400x200/DBB5EE/4C0585?text=Project' }}" alt="{{ item.title }}">
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.description or '' }}</p>
+    <!-- ===== المحتوى الرئيسي ===== -->
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
                 </div>
-            {% else %}
-                <p style="grid-column:1/-1; text-align:center; color:#777;">أضف مشاريعك من لوحة الإدارة</p>
-            {% endfor %}
-        </div>
-    </div>
-</section>
+            {% endif %}
+        {% endwith %}
 
-<section id="videos" class="section videos-section">
-    <div class="container">
-        <h2 class="section-title">أعمال <span>المونتاج</span></h2>
-        <div class="videos-grid">
-            {% for video in videos %}
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="{{ video.url }}" allowfullscreen loading="lazy"></iframe>
+        <!-- القسم 1: الرئيسية -->
+        <section id="home" class="section home-section">
+            <div class="container home-grid">
+                <div class="home-text fade-in">
+                    <h1>مرحباً، أنا <span>يوسف</span></h1>
+                    <p class="tagline">مصمم جرافيك ومونتير فيديو محترف</p>
+                    <p class="bio">{{ bio }}</p>
+                    <a href="#contact" class="btn-primary"><i class="fas fa-paper-plane"></i> تواصل معي الآن</a>
+                </div>
+                <div class="home-image fade-in">
+                    <img src="{{ profile_img }}" alt="صورة يوسف الشخصية" id="profile-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم 2: الأعمال -->
+        <section id="portfolio" class="section portfolio-section">
+            <div class="container">
+                <h2 class="section-title">أعمالي <span>التصميمية</span></h2>
+                <div class="portfolio-grid">
+                    {% for item in portfolio %}
+                        <div class="portfolio-card card-animate">
+                            <img src="{{ url_for('static', filename=item.image) if item.image else 'https://via.placeholder.com/400x200/DBB5EE/4C0585?text=Project' }}" alt="{{ item.title }}">
+                            <h3>{{ item.title }}</h3>
+                            <p>{{ item.description or '' }}</p>
+                        </div>
+                    {% else %}
+                        <p style="grid-column:1/-1; text-align:center; color:#777;">أضف مشاريعك من لوحة الإدارة</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم 3: الفيديوهات -->
+        <section id="videos" class="section videos-section">
+            <div class="container">
+                <h2 class="section-title">أعمال <span>المونتاج</span></h2>
+                <div class="videos-grid">
+                    {% for video in videos %}
+                        <div class="video-card card-animate">
+                            <div class="video-wrapper">
+                                <iframe src="{{ video.url }}" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                            <h3>{{ video.title }}</h3>
+                            <p>{{ video.description or '' }}</p>
+                        </div>
+                    {% else %}
+                        <p style="grid-column:1/-1; text-align:center; color:#777;">أضف أعمال المونتاج من لوحة الإدارة</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- القسم 4: الخدمات -->
+        <section id="services" class="section services-section">
+            <div class="container">
+                <h2 class="section-title">الخدمات <span>التي أقدمها</span></h2>
+                <div class="services-grid">
+                    <div class="service-card card-animate">
+                        <div class="service-icon"><i class="fas fa-palette"></i></div>
+                        <h3>تصميم الهوية البصرية</h3>
+                        <p>بناء هوية متكاملة تعكس شخصية علامتك التجارية.</p>
                     </div>
-                    <h3>{{ video.title }}</h3>
-                    <p>{{ video.description or '' }}</p>
-                </div>
-            {% else %}
-                <p style="grid-column:1/-1; text-align:center; color:#777;">أضف أعمال المونتاج من لوحة الإدارة</p>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<section id="testimonials" class="section testimonials-section">
-    <div class="container">
-        <h2 class="section-title">آراء <span>العملاء</span></h2>
-        <div class="testimonials-grid">
-            {% for t in testimonials %}
-                <div class="testimonial-card">
-                    <p class="quote">“{{ t.text }}”</p>
-                    <p class="client-name">- {{ t.name }}</p>
-                    <p class="client-role">{{ t.role or '' }}</p>
-                </div>
-            {% else %}
-                <p style="grid-column:1/-1; text-align:center; color:#777;">أضف آراء العملاء من لوحة الإدارة</p>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<section id="services" class="section services-section">
-    <div class="container">
-        <h2 class="section-title">الخدمات <span>التي أقدمها</span></h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">🎨</div>
-                <h3>تصميم الهوية البصرية</h3>
-                <p>بناء هوية متكاملة تعكس شخصية علامتك التجارية.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📱</div>
-                <h3>تصميم السوشيال ميديا</h3>
-                <p>منشورات جذابة واحترافية لتعزيز حضورك الرقمي.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🪧</div>
-                <h3>تصميم الشعارات</h3>
-                <p>شعارات مميزة وبسيطة تعلق في ذهن العميل.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🎬</div>
-                <h3>المونتاج وتحرير الفيديو</h3>
-                <p>تحويل لقطاتك إلى قصة فيديو احترافية مؤثرة.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="contact" class="section contact-section">
-    <div class="container">
-        <h2 class="section-title">تواصل <span>معي</span></h2>
-        <div class="contact-content">
-            <div class="contact-info">
-                <p>يمكنك التواصل معي مباشرة عبر واتساب أو تلغرام:</p>
-                <div class="contact-item">
-                    <strong>📱 واتساب:</strong>
-                    <a href="https://wa.me/201289159354" target="_blank">+201289159354</a>
-                </div>
-                <div class="contact-item">
-                    <strong>✈️ تلغرام:</strong>
-                    <a href="https://t.me/T_A_1_H" target="_blank">@T_A_1_H</a>
+                    <div class="service-card card-animate">
+                        <div class="service-icon"><i class="fas fa-hashtag"></i></div>
+                        <h3>تصميم السوشيال ميديا</h3>
+                        <p>منشورات جذابة واحترافية لتعزيز حضورك الرقمي.</p>
+                    </div>
+                    <div class="service-card card-animate">
+                        <div class="service-icon"><i class="fas fa-tag"></i></div>
+                        <h3>تصميم الشعارات</h3>
+                        <p>شعارات مميزة وبسيطة تعلق في ذهن العميل.</p>
+                    </div>
+                    <div class="service-card card-animate">
+                        <div class="service-icon"><i class="fas fa-film"></i></div>
+                        <h3>المونتاج وتحرير الفيديو</h3>
+                        <p>تحويل لقطاتك إلى قصة فيديو احترافية مؤثرة.</p>
+                    </div>
                 </div>
             </div>
-            <div class="contact-note">
-                <p>أنا بانتظار فكرتك القادمة! <br>دعنا نعمل معاً على تحويل رؤيتك إلى واقع ملموس.</p>
-            </div>
-        </div>
-    </div>
-</section>
+        </section>
 
-{% endblock %}
+        <!-- القسم 5: التواصل -->
+        <section id="contact" class="section contact-section">
+            <div class="container">
+                <h2 class="section-title">تواصل <span>معي</span></h2>
+                <div class="contact-content card-animate">
+                    <div class="contact-info">
+                        <p>يمكنك التواصل معي مباشرة عبر واتساب أو تلغرام:</p>
+                        <div class="contact-item">
+                            <i class="fab fa-whatsapp" style="color:#25D366;"></i>
+                            <a href="https://wa.me/201289159354" target="_blank">+201289159354</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-telegram" style="color:#26A5E4;"></i>
+                            <a href="https://t.me/T_A_1_H" target="_blank">@T_A_1_H</a>
+                        </div>
+                    </div>
+                    <div class="contact-note">
+                        <p>أنا بانتظار فكرتك القادمة! <br>دعنا نعمل معاً على تحويل رؤيتك إلى واقع ملموس.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== شريط التنقل السفلي (يظهر على جميع الأجهزة) ===== -->
+    <nav class="navbar-bottom" id="navbarBottom">
+        <a href="#home" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="#portfolio" class="nav-item">
+            <i class="fas fa-paint-brush"></i>
+            <span>الأعمال</span>
+        </a>
+        <a href="#videos" class="nav-item">
+            <i class="fas fa-video"></i>
+            <span>الفيديوهات</span>
+        </a>
+        <a href="#services" class="nav-item">
+            <i class="fas fa-cogs"></i>
+            <span>الخدمات</span>
+        </a>
+        <a href="#contact" class="nav-item">
+            <i class="fas fa-envelope"></i>
+            <span>تواصل</span>
+        </a>
+    </nav>
+
+    <!-- ===== تذييل الصفحة ===== -->
+    <footer>
+        <div class="container">
+            <p>© 2026 يوسف - جميع الحقوق محفوظة. صمم بكل ❤️ لخدمتك.</p>
+        </div>
+    </footer>
+
+    <!-- ملف JavaScript -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
